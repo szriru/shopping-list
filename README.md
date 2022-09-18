@@ -18,7 +18,7 @@ Build for me to learn about electron-js
 
 ## Download from Releases
 
-1. Go to [Releases](http://google.com)
+1. Go to [Releases](https://github.com/szriru/shopping-list/releases/tag/v1.0.0)
 2. Download and execute exe file.
 
 ## From source
