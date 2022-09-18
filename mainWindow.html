@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Shopping List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="flex justify-center items-center bg-emerald-400 shadow-md mb-4">
+            <a class="p-4 text-3xl text-white text-bold">
+                Shopping List
+            </a>
+        </div>
+    </nav>
+    <form class="flex justify-center items-center">
+        <div class="flex justify-center items-center m-2">
+            <input class="p-2 text-lg border-2 border-slate-200 shadow-lg" type="text" id="item" placeholder="Enter Items">
+        </div>
+        <div class="flex justify-center items-center m-2">
+            <button class="shadow-md bg-emerald-500 text-white text-md rounded-lg p-2" type="submit">ADD ITEM</button>
+        </div>
+    </form>
+    <ul>
+
+    </ul>
+
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+        const ul = document.querySelector('ul');
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', submitForm);
+
+        function submitForm(e) {
+            e.preventDefault();
+            const item = document.querySelector('#item').value;
+            ipcRenderer.send('item:add', item)
+            form.reset();
+        };
+
+        ipcRenderer.on('item:add', function (e, item) {
+            ul.className = ''
+            const li = document.createElement('li');
+            const itemText = document.createTextNode(item)
+            li.appendChild(itemText);
+            ul.appendChild(li)
+            li.className = 'text-lg pl-6 p-2 m-2 border-2 border-slate-200 border-solid'
+        })
+
+        // Clear Items
+        ipcRenderer.on('item:clear', function () {
+            ul.innerHTML = '';
+        });
+
+        // Remove item
+        ul.addEventListener('dblclick', removeItem);
+
+        function removeItem(e) {
+            e.target.remove();
+            if (ul.children.length == 0) {
+                ul.className = '';
+                li.className = '';
+            }
+        }
+
+    </script>
+</body>
+
+</html>

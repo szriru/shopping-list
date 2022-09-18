@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Shopping List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <form>
+        <div class="flex flex-col justify-center items-center m-2 space-y-2">
+            <label class="text-slate-500">Enter Item</label>
+            <input class="p-4 text-lg border-2 border-slate-200 shadow-lg" type="text" id="item" autofocus>
+        </div>
+        <div class="flex justify-center items-center mt-4">
+            <button class="shadow-md bg-emerald-600 text-white text-xl rounded-lg p-4" type="submit">ADD ITEM</button>
+        </div>
+    </form>
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', submitForm);
+
+        function submitForm(e) {
+            e.preventDefault();
+            const item = document.querySelector('#item').value;
+            ipcRenderer.send('item:add', item)
+        };
+
+    </script>
+</body>
+
+</html>
